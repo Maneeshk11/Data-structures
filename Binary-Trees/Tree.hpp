@@ -79,3 +79,27 @@ void BinaryTree<T>::postOrderD(BinaryTree<T>::TreeNode* node) {
     }
 }
 
+// --------------------------------------- DESTROY SUBTREE --------------------------------------------
+
+template<typename T>
+void BinaryTree<T>::destroySubTree(TreeNode* node) {
+    if (!node) {
+        return;
+    }
+    destroySubTree(node->left);
+    destroySubTree(node->right);
+
+    node->left = nullptr;
+    node->right = nullptr;
+
+    delete node;
+}
+
+
+// ------------------------------------ Destroy whole tree -------------------------------------
+
+template<typename T>
+void BinaryTree<T>::destroyWholeTree() {
+    destroySubTree(root_);
+    root_ = nullptr;
+}

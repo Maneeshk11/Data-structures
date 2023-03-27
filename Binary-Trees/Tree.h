@@ -25,8 +25,11 @@ class BinaryTree {
         void inOrderD(TreeNode* node);
         void preOrderD(TreeNode* node);
         void postOrderD(TreeNode* node);
+        void destroySubTree(TreeNode* node);
+        void destroyWholeTree();
     private:
         TreeNode* root_;
+
 };
 
 #include "Tree.hpp"

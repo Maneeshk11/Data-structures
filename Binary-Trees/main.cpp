@@ -10,4 +10,5 @@ int main() {
     tree.preOrder();
     tree.inOrder();
     tree.postOrder();
+    tree.destroyWholeTree(); 
 }
