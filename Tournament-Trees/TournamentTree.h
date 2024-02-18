@@ -25,8 +25,13 @@ class TournamentTree {
                     isMin_ = order;
                     createTournamentTree(array, root_, isMin_, false);
                 }
+                WinnerTree(TreeNode* & other) : WinnerTree() {
+                    root_ = cloneTree(other);
+                }
                 T & getWinner();
                 void replaceWinnerAndReplay(T newElement);
+                TreeNode* cloneTree(TreeNode* TreeNode);
+                vector<int> generateSortedArray();
             private:
                 TreeNode* root_;
         };

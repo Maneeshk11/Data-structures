@@ -86,6 +86,36 @@ void TournamentTree<T>::WinnerTree::replaceWinnerAndReplay(T newElement) {
     
 }
 
+// there are issues in this function that have to be fixed.
+template <typename T>
+typename TournamentTree<T>::TreeNode* TournamentTree<T>::WinnerTree::cloneTree(TreeNode* other) {
+    // TreeNode* node = other;
+    TreeNode* newnode = new TreeNode(other->data);
+    newnode->parent = other->parent;
+    if (other->leftChild == nullptr && other->rightChild == nullptr) {
+        return newnode;
+    }
+    if (other->leftChild != nullptr) {
+        newnode->leftChild = cloneTree(other->leftChild);
+    } if (other->rightChild != nullptr) {root_ = cloneTree(other);
+        newnode->rightChild = cloneTree(other->rightChild);
+    }
+    return  newnode;
+}
+
+template <typename T>
+vector<int> TournamentTree<T>::WinnerTree::generateSortedArray() {
+    TournamentTree<T>::WinnerTree copyTree(this->root_);
+    vector<int> result;
+    int i = 0;
+    // copyTree.replaceWinnerAndReplay(9);
+    while (copyTree.root_->data != INT_MAX) {
+        result.push_back(copyTree.getWinner());
+        copyTree.replaceWinnerAndReplay(INT_MAX);
+    }
+    return result;
+}
+
 
 // --------------------------------  loser tree methods -----------------------------------
 
