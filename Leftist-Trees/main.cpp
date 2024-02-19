@@ -4,6 +4,7 @@
 using namespace std;
 
 int main() {
-    vector<int> arr = {4, 3};
-    LeftistTree<int> ourtree(arr);
+    vector<int> arr = {7, 1, 9, 11, 2};
+    LeftistTree<int> ourtree(arr, false);
+    cout << ourtree.getRoot() << endl;
 }

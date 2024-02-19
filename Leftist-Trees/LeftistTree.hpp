@@ -11,7 +11,7 @@ TreeNode<T>* LeftistTree<T>::createLeftistTree(vector<T>&array) {
         initialqueue.push(newnode);
     } // we formed the initial queue with single element leftist trees
 
-    while (initialqueue.size() != 1) {
+    while (initialqueue.size() > 1) {
         TreeNode<T>* tree1 = initialqueue.front();
         initialqueue.pop();
         TreeNode<T>* tree2 = initialqueue.front();
@@ -28,19 +28,21 @@ TreeNode<T>* LeftistTree<T>::meldTrees(TreeNode<T>* & tree1, TreeNode<T>* & tree
     meldingStack.push(tree1);
     meldingStack.push(tree2);
     while (meldingStack.size() > 1) {
-        TreeNode<T>* & lefttree = meldingStack.top();
+        TreeNode<T>* lefttree = meldingStack.top();
         meldingStack.pop();
-        TreeNode<T>* & righttree = meldingStack.top();
+        TreeNode<T>* righttree = meldingStack.top();
         meldingStack.pop();
-        if (lefttree->data <= righttree->data) {
+        if (isMin_ ? lefttree->data <= righttree->data : lefttree->data >= righttree->data) {
             if (lefttree->rightChild == nullptr) {
-                if (lefttree->leftChild != nullptr && lefttree->leftChild >= righttree) {
+                if (lefttree->leftChild != nullptr && lefttree->leftChild->sdist >= righttree->sdist) {
                     lefttree->rightChild = righttree;
                     lefttree->sdist += righttree->sdist + 1;
                 } else {
                     lefttree->rightChild = lefttree->leftChild;
                     lefttree->leftChild = righttree;
-                    lefttree->sdist += lefttree->rightChild->sdist + 1;
+                    if (lefttree->rightChild != nullptr) {
+                        lefttree->sdist = lefttree->rightChild->sdist;
+                    }
                 }
                 righttree->parent = lefttree;
                 meldingStack.push(lefttree);
@@ -52,10 +54,18 @@ TreeNode<T>* LeftistTree<T>::meldTrees(TreeNode<T>* & tree1, TreeNode<T>* & tree
                 meldingStack.push(rightsubtree);
                 meldingStack.push(righttree);
             }
-        } 
-        else {
+        } else {
             if (righttree->rightChild == nullptr) {
-                righttree->rightChild = lefttree;
+                if (righttree->leftChild != nullptr && righttree->leftChild->sdist >= lefttree->sdist) {
+                    righttree->rightChild = lefttree;
+                    righttree->sdist += lefttree->sdist + 1;
+                } else {
+                    righttree->rightChild = righttree->leftChild;
+                    righttree->leftChild = lefttree;
+                    if (righttree->rightChild != nullptr) {
+                        righttree->sdist = righttree->rightChild->sdist;
+                    }
+                }
                 lefttree->parent = righttree;
                 meldingStack.push(righttree);
             } else {
@@ -69,4 +79,9 @@ TreeNode<T>* LeftistTree<T>::meldTrees(TreeNode<T>* & tree1, TreeNode<T>* & tree
         }
     } 
     return meldingStack.top();
+}
+
+template <typename T>
+T & LeftistTree<T>::getRoot() {
+    return root_->data;
 }

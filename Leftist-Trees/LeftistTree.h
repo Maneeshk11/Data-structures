@@ -19,16 +19,15 @@ template <typename T>
 class LeftistTree {
     public:
         LeftistTree() : root_(nullptr) {}
-        LeftistTree(vector<T>&array) : LeftistTree(){
+        LeftistTree(vector<T>&array, bool isMin) : LeftistTree(){ 
+            isMin_ = isMin;
             root_ = createLeftistTree(array);
-            cout << "root value: " << root_->data << endl;
-            if (root_->rightChild == nullptr) {
-                cout << " yeahhh baby !" << endl;
-            }
-        }
+        } 
         TreeNode<T>* createLeftistTree(vector<T>&array);
         TreeNode<T>* meldTrees(TreeNode<T>* & tree1, TreeNode<T>* & tree2);
-
+        T & getRoot();
+        
+        bool isMin_;
     private:
         TreeNode<T>* root_;
 };
