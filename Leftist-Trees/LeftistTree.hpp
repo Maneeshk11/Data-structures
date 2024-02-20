@@ -85,3 +85,40 @@ template <typename T>
 T & LeftistTree<T>::getRoot() {
     return root_->data;
 }
+
+template <typename T>
+void LeftistTree<T>::put(T value) {
+    TreeNode<T>* newnode = new TreeNode<T>(value);
+    root_ = meldTrees(root_, newnode);
+    return;
+}
+
+template <typename T>
+void LeftistTree<T>::removeMin() {
+    if (!isMin_) {
+        throw runtime_error ("Cannot perform removeMin over a max-leftist tree");
+    } else {
+        TreeNode<T>* treeLeft = root_->leftChild;
+        TreeNode<T>* treeRight = root_->rightChild;
+        treeLeft->parent = nullptr;
+        treeRight->parent = nullptr;
+        root_ = meldTrees(treeLeft, treeRight);
+    }
+    return;
+}
+
+template <typename T>
+void LeftistTree<T>::removeMax() {
+    if (isMin_) {
+        throw runtime_error("Cannot perform removeMax over a min-leftist tree");
+    } else {
+        root_->leftChild->parent = nullptr;
+        root_->rightChild->parent = nullptr;
+        TreeNode<T>* treeLeft = root_->leftChild;
+        TreeNode<T>* treeRight = root_->rightChild;
+        
+        root_ = meldTrees(treeLeft, treeRight);
+    }
+    
+    return;
+}

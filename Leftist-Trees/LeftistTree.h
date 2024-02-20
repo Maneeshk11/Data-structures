@@ -26,7 +26,9 @@ class LeftistTree {
         TreeNode<T>* createLeftistTree(vector<T>&array);
         TreeNode<T>* meldTrees(TreeNode<T>* & tree1, TreeNode<T>* & tree2);
         T & getRoot();
-        
+        void put(T value);
+        void removeMin();
+        void removeMax();
         bool isMin_;
     private:
         TreeNode<T>* root_;
